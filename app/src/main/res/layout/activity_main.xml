@@ -49,7 +49,7 @@
         android:id="@+id/rvEmails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_email"
         android:layout_weight="1"/>

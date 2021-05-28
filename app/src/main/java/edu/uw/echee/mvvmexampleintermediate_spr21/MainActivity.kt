@@ -18,22 +18,24 @@ class MainActivity : AppCompatActivity() {
 
     private val emailViewModel by viewModels<EmailViewModel>()
 
-    init {
-        lifecycleScope.launchWhenCreated {
-            emailViewModel.numOfEmails
-                .onEach {
-                    binding.tvCount.text = it.toString()
-                }.launchIn(lifecycleScope)
-        }
+    private fun observeChangesFromViewModel() {
+        emailViewModel.allEmails
+            .onEach { emails ->
+                binding.tvCount.text = emails.size.toString()
+            }.launchIn(lifecycleScope)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(root) }
+
+        emailViewModel.setUp(emailRepository)
+
+        observeChangesFromViewModel()
         with(binding) {
 
             btnFetchEmails.setOnClickListener { emailViewModel.fetchEmails() }
-            btnDeleteEmail.setOnClickListener { emailViewModel.deleteEmail() }
+//            btnDeleteEmail.setOnClickListener { emailViewModel.deleteEmail() }
             initAdapter()
         }
     }
